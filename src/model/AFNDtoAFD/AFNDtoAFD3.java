@@ -9,6 +9,7 @@ import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import model.domain.AFD;
+import model.domain.AFD2;
 import model.domain.AFND;
 import model.domain.Estado;
 import model.domain.Transicion;
@@ -18,14 +19,17 @@ public class AFNDtoAFD3 {
 
 	private List<TransicionIntermedia> transicionesIntermedias;
 	private List<List<Estado>> conjuntoDeEstadosInicialesAFD;
+	private List<List<Estado>> conjuntoDeEstadosFinalesAFD;
 	private AFND afnd;
+	private Estado estadoBasura;
 
-	public AFD fromAFNDtoAFD(AFND afnd) {
+	public AFD2 fromAFNDtoAFD(AFND afnd) {
 
 		this.afnd = afnd;
 		this.transicionesIntermedias = new ArrayList<TransicionIntermedia>();
 		this.conjuntoDeEstadosInicialesAFD = new ArrayList<>();
-
+		this.conjuntoDeEstadosFinalesAFD = new ArrayList<>();
+		
 		ArrayList<Estado> estadoInicial = new ArrayList<>();
 		estadoInicial.add(new Estado(1));
 
@@ -35,19 +39,37 @@ public class AFNDtoAFD3 {
 			this.agregarTransicionesIntermedias(conjuntoDeEstadosInicialesAFD.get(i));
 		}
 		
+	
+		//AGREGO EL ESTADO BASURA. SE VA A LLAMAR -1
+		this.estadoBasura = new Estado(-1);
+		ArrayList<Estado> estadoBasuraAFD = new ArrayList<>();
+		estadoBasuraAFD.add(this.estadoBasura);
+		this.conjuntoDeEstadosInicialesAFD.add(estadoBasuraAFD);
+		
+		
+		
+		this.completarTransicionesIntermedias();
+		this.crearEstadosFinales();
 		
 		//PRINT DE TRANSICIONES INTERMEDIAS
-		/*
+		
 		  for(TransicionIntermedia t : this.transicionesIntermedias) {
 		  System.out.print("EI = { "); for(Estado ei : t.getEstadoInicial()) {
 		  System.out.print(ei.getValor() + " , "); } System.out.print(" } ");
 		  System.out.print( " , INPUT = "+t.getInput());
 		  System.out.print("   -> EF = { "); for(Estado ef : t.getEstadoFinal()) {
 		  System.out.print(ef.getValor() + " , "); } System.out.println(""); }
-		 */
+		 
+		
+		
+		System.out.println("-----------------------------------");
+		System.out.println("-----------------------------------");
+		System.out.println("-----------------------------------");
+		System.out.println("-----------------------------------");
+		
 		
 		  //PRINT DE ESTADOS INICIALES DEL AFD
-		  /*
+		  
 		  System.out.println("CHEQUEO CONJUNTOS");
 		  for(List<Estado> estadosIniciales: this.conjuntoDeEstadosInicialesAFD){
 			  System.out.print("EI = ");
@@ -56,8 +78,27 @@ public class AFNDtoAFD3 {
 			  }
 			  System.out.println("");
 		  }
-		  */
-		return null;
+		  
+		  
+		  System.out.println("-----------------------------------");
+			System.out.println("-----------------------------------");
+			System.out.println("-----------------------------------");
+			System.out.println("-----------------------------------");
+			
+			
+			  //PRINT DE ESTADOS INICIALES DEL AFD
+			  
+			  System.out.println("CHEQUEO CONJUNTOS FINALES");
+			  for(List<Estado> estadosFinales: this.conjuntoDeEstadosFinalesAFD){
+				  System.out.print("EI = ");
+				  for(Estado estado: estadosFinales) {
+					  System.out.print(estado.getValor()+" ");
+				  }
+				  System.out.println("");
+			  }
+		  
+		  
+		return new AFD2(this.afnd.getAlfabetoInput(), this.conjuntoDeEstadosInicialesAFD, this.conjuntoDeEstadosFinalesAFD, this.transicionesIntermedias);
 	}
 
 	// Agrego transiciones intermedias de una lista de estados
@@ -210,4 +251,75 @@ public class AFNDtoAFD3 {
 		return true;
 	}
 
+
+	//METODO PARA COMPLETAR LAS TRANSICIONES DEL AFD (UNA PARA CADA CHAR)
+	private void completarTransicionesIntermedias() {
+		
+		//RECORRO TODOS LOS ESTADOS INICIALES DEL AFD
+		for(List<Estado> estadoInicialAFD : conjuntoDeEstadosInicialesAFD) {
+			
+			//OBTENGO LAS TRANSICIONES INTERMEDIAS DE EL ESTADO INICIAL
+			List<TransicionIntermedia> transicionesEstadoInicialAFD = this.obtenerTransicionesEstadoAFD(estadoInicialAFD);
+			
+			//VEO SI EXISTEN TRANSICION CON TODOS LOS CARACTERES DEL ALFABETO
+			for(char charInput : this.afnd.getAlfabetoInput()) {
+				
+				//SI NO EXISTE TRANSICION CON ESE CARACTER CREO UNA NUEVA llevandola al estado basura
+				if(!this.existeTransicionConChar(charInput, transicionesEstadoInicialAFD)) {
+					List<Estado> estadoFinalFaltante = new ArrayList<Estado>();
+					estadoFinalFaltante.add(this.estadoBasura);
+					TransicionIntermedia transicionIntermediaFaltante = new TransicionIntermedia(estadoInicialAFD, charInput, estadoFinalFaltante);
+					this.transicionesIntermedias.add(transicionIntermediaFaltante);
+				}
+			}
+			
+		}
+		
+	}
+
+	
+	//METODO PARA OBTENER LAS TRANSICIONES INTERMEDIAS DE UN ESTADO INICIAL DEL AFD
+	private List<TransicionIntermedia> obtenerTransicionesEstadoAFD(List<Estado> estadoInicialAFD) {
+
+		List<TransicionIntermedia> ret = new ArrayList<>();
+		
+		for(TransicionIntermedia transicion : this.transicionesIntermedias) {
+			if(this.tienenLosMismosEstados(transicion.getEstadoInicial(), estadoInicialAFD))
+				ret.add(transicion);
+		}
+		
+		return ret;
+	}
+	
+	
+	//METODO PARA OBTENER LOS ESTADOS QUE SON FINALES DEL AFD
+	private void crearEstadosFinales() {
+		
+		//recorro los estados del AFD que tengo creados
+		for(List<Estado> estadosInicialesAFD : this.conjuntoDeEstadosInicialesAFD) {
+			
+			boolean esEstadoFinal = false;
+			
+			//recorro cada uno de esos estados del conjunto que eran un estado simple del AFND
+			for(Estado estado : estadosInicialesAFD) {
+				
+				//recorro los estados Finales del AFND, si el estado del conjunto era final, lo seteo al flag para agregarlo como estado final 
+				for(Estado estadoFinalAFND : this.afnd.getEstadosFinales()) {
+					if(estadoFinalAFND.getValor() == estado.getValor()) {
+						esEstadoFinal = true;
+						break;
+					}
+				}
+				if(esEstadoFinal)
+					break;
+			}
+			
+			if(esEstadoFinal) {
+				esEstadoFinal = false;
+				this.conjuntoDeEstadosFinalesAFD.add(estadosInicialesAFD);
+			}
+		}
+	}
+	
+	
 }

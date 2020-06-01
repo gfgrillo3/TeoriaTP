@@ -3,6 +3,7 @@ package model.AFNDtoAFD;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.domain.AFD2;
 import model.domain.AFND;
 import model.domain.Estado;
 import model.domain.Transicion;
@@ -45,9 +46,12 @@ public class Main {
 		
 		char[] inputs = new char[] {'a','b','c'};
 		
-		int[] estadosfinales = new int[] {3};
+		List<Integer> estadosFinales = new ArrayList<>();
+		estadosFinales.add(8);
+		estadosFinales.add(17);
 		
-		AFND afnd = new AFND(inputs, 32, estadosfinales, transiciones);
+		
+		AFND afnd = new AFND(inputs, 32, estadosFinales, transiciones);
 		
 		//PRINT DE TRANSICIONES DEL AFND
 		/*
@@ -56,7 +60,9 @@ public class Main {
 		}
 		*/
 		AFNDtoAFD3 a = new AFNDtoAFD3();
-		a.fromAFNDtoAFD(afnd);
+		AFD2 afd = a.fromAFNDtoAFD(afnd);
+		
+		System.out.println(afd.procesarString("cb"));
 		
 	}
 

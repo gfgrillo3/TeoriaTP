@@ -14,7 +14,7 @@ public class AFND {
 	List<Estado> estadosFinales;
 	List<Transicion> transiciones;
 
-	public AFND(char[] alfabetoInput, int cantEstados, int[] estadosFinales, List<Transicion> transiciones) {
+	public AFND(char[] alfabetoInput, int cantEstados, List<Integer> estadosFinales, List<Transicion> transiciones) {
 
 		this.alfabetoInput = alfabetoInput;
 		this.inicializarEstados(cantEstados);
@@ -37,7 +37,7 @@ public class AFND {
 		}
 	}
 
-	private void inicializarEstadosFinales(int[] estadosFinales) {
+	private void inicializarEstadosFinales(List<Integer> estadosFinales) {
 
 		this.estadosFinales = new ArrayList<Estado>();
 
@@ -79,5 +79,11 @@ public class AFND {
 		return this.transiciones;
 	}
 	
+	public List<Estado> getEstadosFinales() {
+		return this.estadosFinales;
+	}
 	
+	public char[] getAlfabetoInput() {
+		return this.alfabetoInput;
+	}
 }

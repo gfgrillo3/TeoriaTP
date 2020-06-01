@@ -22,6 +22,11 @@ public class TransicionIntermedia {
 	}
 
 
+	public TransicionIntermedia(List<Estado> estadoInicial, char input, List<Estado> estadoFinal) {
+		this.estadoInicial  =estadoInicial;
+		this.input = input;
+		this.estadoFinal = estadoFinal;		
+	}
 
 
 
