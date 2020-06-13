@@ -8,12 +8,13 @@ import model.domain.AFND;
 import model.domain.Estado;
 import model.domain.Transicion;
 import model.domain.TransicionIntermedia;
+import model.input.InputReader;
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		
+		/*
 		Transicion t1 = new Transicion(new Estado(1), 'a', new Estado(3));
 		Transicion t2 = new Transicion(new Estado(1), 'a', new Estado(4));
 		Transicion t3 = new Transicion(new Estado(1), 'a', new Estado(5));
@@ -52,17 +53,25 @@ public class Main {
 		
 		
 		AFND afnd = new AFND(inputs, 32, estadosFinales, transiciones);
-		
+		*/
 		//PRINT DE TRANSICIONES DEL AFND
 		/*
 		for(Transicion t : afnd.getTransiciones()) {
 			System.out.println("EI = "+t.getEstadoInicial().getValor()+" , IN = "+t.getInput()+" , EF = "+t.getEstadoFinal().getValor());
 		}
 		*/
+		
+		InputReader input = new InputReader();
+		
+		AFND afnd = input.crearAFND();
+		
+		
 		AFNDtoAFD3 a = new AFNDtoAFD3();
 		AFD2 afd = a.fromAFNDtoAFD(afnd);
 		
-		System.out.println(afd.procesarString("cb"));
+		
+		System.out.println(afd.toString());
+		System.out.println(afd.procesarString("a"));
 		
 	}
 

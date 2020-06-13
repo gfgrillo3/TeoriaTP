@@ -1,11 +1,11 @@
 package model.solver;
 
-import model.domain.AFD;
+import model.domain.AFD2;
 
 public class AFDSolver {
 	
 	
-	public boolean resolver(AFD afd) {
+	public boolean resolver(AFD2 afd) {
 		
 		
 		return false;

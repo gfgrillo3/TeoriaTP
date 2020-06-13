@@ -1,7 +1,11 @@
 package model.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import model.logica.StringGenerator;
 
 public class AFD2 {
 
@@ -40,24 +44,26 @@ public class AFD2 {
 		}
 
 		// VALIDO SI ES ESTADO FINAL. VEO LOS ESTADOS FINALES DEL AFD
-		//SI EL ESTADO ACTUAL ES UN ESTADO FINAL, ACEPTO EL STRING
-		for(List<Estado> estadoFinal : this.estadosFinales) {
-			if(this.tienenLosMismosEstados(estadoFinal, estadoActual))
+		// SI EL ESTADO ACTUAL ES UN ESTADO FINAL, ACEPTO EL STRING
+		for (List<Estado> estadoFinal : this.estadosFinales) {
+			if (this.tienenLosMismosEstados(estadoFinal, estadoActual))
 				return true;
 		}
-		
+
 		return false;
 	}
 
-	//METODO PARA AVANZAR UNA POSICION DESDE UN ESTADO CON UN CHAR DE INPUT
-	private List<Estado> mover(List<Estado> estadoActual, char caracterInput){
-		
-		for(TransicionIntermedia transicion : this.transiciones){
-			//Si es el mismo estado inicial, y tienen el mismo char de input, es la transicion que necesito
-			if(tienenLosMismosEstados(transicion.getEstadoInicial(), estadoActual) && transicion.getInput() == caracterInput)
+	// METODO PARA AVANZAR UNA POSICION DESDE UN ESTADO CON UN CHAR DE INPUT
+	private List<Estado> mover(List<Estado> estadoActual, char caracterInput) {
+
+		for (TransicionIntermedia transicion : this.transiciones) {
+			// Si es el mismo estado inicial, y tienen el mismo char de input, es la
+			// transicion que necesito
+			if (tienenLosMismosEstados(transicion.getEstadoInicial(), estadoActual)
+					&& transicion.getInput() == caracterInput)
 				return transicion.getEstadoFinal();
 		}
-		
+
 		return null;
 	}
 
@@ -77,4 +83,45 @@ public class AFD2 {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+
+		String alfabeto = "Alfabeto = ";
+		String estados = "Estados = ";
+		String estadoInicial = "Estado Inicial = ";
+		String estadosFinales = "Estados Finales = ";
+		String transiciones = "Transiciones = \n";
+
+
+		alfabeto += Arrays.toString(this.alfabetoInput).replace("[", "").replace("]", "");
+		
+		
+		estados += this.estados
+		           .stream()
+		           .map(listEstado -> StringGenerator.toStringListEstados(listEstado))
+		           .collect(Collectors.joining(" , "));
+
+		
+		estadoInicial += StringGenerator.toStringListEstados(this.estadoInicial);
+		
+		
+		estadosFinales += this.estadosFinales
+		           .stream()
+		           .map(listEstado -> StringGenerator.toStringListEstados(listEstado))
+		           .collect(Collectors.joining(" , "));
+
+		
+		for(TransicionIntermedia transicion : this.transiciones)
+			transiciones += transicion.toString()+"\n";
+		
+		
+
+		return  alfabeto + "\n" + 
+				estados + "\n" + 
+				estadoInicial + "\n" +
+				estadosFinales + "\n"+
+				transiciones;
+	}
+
+	
 }

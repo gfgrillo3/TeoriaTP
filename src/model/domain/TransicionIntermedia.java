@@ -3,14 +3,14 @@ package model.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.logica.StringGenerator;
+
 public class TransicionIntermedia {
 
 	List<Estado> estadoInicial;
 	char input;
 	List<Estado> estadoFinal;
 	
-	
-
 
 
 	public TransicionIntermedia(Transicion transicion) {
@@ -35,15 +35,9 @@ public class TransicionIntermedia {
 	}
 
 
-
-
-
 	public void setEstadoInicial(List<Estado> estadoInicial) {
 		this.estadoInicial = estadoInicial;
 	}
-
-
-
 
 
 	public char getInput() {
@@ -51,23 +45,14 @@ public class TransicionIntermedia {
 	}
 
 
-
-
-
 	public void setInput(char input) {
 		this.input = input;
 	}
 
 
-
-
-
 	public List<Estado> getEstadoFinal() {
 		return estadoFinal;
 	}
-
-
-
 
 
 	public void setEstadoFinal(List<Estado> estadoFinal) {
@@ -77,5 +62,16 @@ public class TransicionIntermedia {
 	
 	public void addEstadoFinal(Estado estado) {
 		this.estadoFinal.add(estado);
+	}
+	
+	@Override
+	public String toString() {
+		
+		
+		return StringGenerator.toStringListEstados(this.estadoInicial) +
+				" , "+this.input+
+				" ---> "+StringGenerator.toStringListEstados(estadoFinal);
+		
+		
 	}
 }

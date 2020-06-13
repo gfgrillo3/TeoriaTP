@@ -1,6 +1,5 @@
 package model.domain;
 
-import java.util.Comparator;
 
 public class Transicion{
 	

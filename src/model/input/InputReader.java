@@ -26,7 +26,7 @@ public class InputReader {
 		try {
 			// Apertura del fichero y creacion de BufferedReader para poder
 			// hacer una lectura comoda (disponer del metodo readLine()).
-			archivo = new File("C:\\Users\\Gustavo\\Desktop\\afnd.txt");
+			archivo = new File("C:\\Users\\Franco\\Desktop\\afndClase.txt");
 			fr = new FileReader(archivo);
 			br = new BufferedReader(fr);
 
@@ -35,7 +35,7 @@ public class InputReader {
 			int indiceLinea = 0;
 			
 			while ((linea = br.readLine()) != null) {
-				System.out.println(linea);
+				//System.out.println(linea);
 				linea = limpiarEspaciosBlancos(linea);
 				if(indiceLinea == 0)
 					alfabeto = linea.replace(",", "");
@@ -47,7 +47,7 @@ public class InputReader {
 				else if(indiceLinea > 2 ) {
 					transiciones.add(crearTransicion(linea));
 				}
-				indiceLinea++;
+				indiceLinea++; 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
