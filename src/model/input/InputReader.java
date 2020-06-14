@@ -114,8 +114,12 @@ public class InputReader {
 		}
 		
 		//UNA VEZ QUE TENGO TODOS LOS DATOS CREO LA TRANSICIÓN
-		Estado estadoI = new Estado(Integer.parseInt(estadoInicial));
-		Estado estadoF = new Estado(Integer.parseInt(estadoFinal));
+		ArrayList<Estado> estadoI = new ArrayList<Estado>();
+		ArrayList<Estado> estadoF = new ArrayList<Estado>();
+		
+		estadoI.add(new Estado(Integer.parseInt(estadoInicial)));
+		estadoF.add(new Estado(Integer.parseInt(estadoFinal)));
+		
 		
 		Transicion transicion = new Transicion(estadoI, input, estadoF);
 		

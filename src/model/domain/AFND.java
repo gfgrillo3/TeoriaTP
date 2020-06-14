@@ -56,17 +56,17 @@ public class AFND {
 			@Override
 			public int compare(Transicion transicion, Transicion otraTransicion) {
 
-				if(transicion.estadoInicial.getValor() > otraTransicion.getEstadoInicial().getValor())
+				if(transicion.estadoInicial.get(0).getValor() > otraTransicion.getEstadoInicial().get(0).getValor())
 					return 1;
-				else if(transicion.estadoInicial.getValor() < otraTransicion.getEstadoInicial().getValor())
+				else if(transicion.estadoInicial.get(0).getValor() < otraTransicion.getEstadoInicial().get(0).getValor())
 					return -1;
 				else if(transicion.getInput() > otraTransicion.getInput())
 					return 1;
 				else if(transicion.getInput() < otraTransicion.getInput() )
 					return -1;
-				else if(transicion.estadoFinal.getValor() > otraTransicion.getEstadoFinal().getValor())
+				else if(transicion.estadoFinal.get(0).getValor() > otraTransicion.getEstadoFinal().get(0).getValor())
 					return 1;
-				else if(transicion.estadoFinal.getValor() < otraTransicion.getEstadoFinal().getValor())
+				else if(transicion.estadoFinal.get(0).getValor() < otraTransicion.getEstadoFinal().get(0).getValor())
 					return -1;
 				return 0;
 			}

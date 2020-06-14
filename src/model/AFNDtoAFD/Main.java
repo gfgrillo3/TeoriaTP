@@ -1,13 +1,7 @@
 package model.AFNDtoAFD;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import model.domain.AFD2;
+import model.domain.AFD;
 import model.domain.AFND;
-import model.domain.Estado;
-import model.domain.Transicion;
-import model.domain.TransicionIntermedia;
 import model.input.InputReader;
 
 public class Main {
@@ -66,8 +60,8 @@ public class Main {
 		AFND afnd = input.crearAFND();
 		
 		
-		AFNDtoAFD3 a = new AFNDtoAFD3();
-		AFD2 afd = a.fromAFNDtoAFD(afnd);
+		AFNDtoAFD a = new AFNDtoAFD();
+		AFD afd = a.fromAFNDtoAFD(afnd);
 		
 		
 		System.out.println(afd.toString());

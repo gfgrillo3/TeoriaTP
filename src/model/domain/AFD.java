@@ -7,20 +7,20 @@ import java.util.stream.Collectors;
 
 import model.logica.StringGenerator;
 
-public class AFD2 {
+public class AFD {
 
 	// PROBABLEMENTE LIST STRING?
 	char[] alfabetoInput;
 	List<Estado> estadoInicial;
 	List<List<Estado>> estados;
 	List<List<Estado>> estadosFinales;
-	List<TransicionIntermedia> transiciones;
+	List<Transicion> transiciones;
 
 	// PROBABLEMENTE SE RECIBA LA LISTA DE ESTADIS DIRECTAMENTE YA QUE SE ESTA
 	// CONVIRTIENDO DE UN AFND
 	// POR ESTO, NO SE RECIBIRÍA CANT ESTADOS
-	public AFD2(char[] alfabetoInput, List<List<Estado>> estados, List<List<Estado>> estadosFinales,
-			List<TransicionIntermedia> transiciones) {
+	public AFD(char[] alfabetoInput, List<List<Estado>> estados, List<List<Estado>> estadosFinales,
+			List<Transicion> transiciones) {
 
 		this.alfabetoInput = alfabetoInput;
 		this.estadoInicial = new ArrayList<>();
@@ -56,7 +56,7 @@ public class AFD2 {
 	// METODO PARA AVANZAR UNA POSICION DESDE UN ESTADO CON UN CHAR DE INPUT
 	private List<Estado> mover(List<Estado> estadoActual, char caracterInput) {
 
-		for (TransicionIntermedia transicion : this.transiciones) {
+		for (Transicion transicion : this.transiciones) {
 			// Si es el mismo estado inicial, y tienen el mismo char de input, es la
 			// transicion que necesito
 			if (tienenLosMismosEstados(transicion.getEstadoInicial(), estadoActual)
@@ -111,7 +111,7 @@ public class AFD2 {
 		           .collect(Collectors.joining(" , "));
 
 		
-		for(TransicionIntermedia transicion : this.transiciones)
+		for(Transicion transicion : this.transiciones)
 			transiciones += transicion.toString()+"\n";
 		
 		

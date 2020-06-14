@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import model.domain.AFD2;
+import model.domain.AFD;
 import model.domain.AFND;
 import model.domain.Estado;
 import model.domain.Transicion;
-import model.domain.TransicionIntermedia;
+import model.domain.Transicion;
 
-public class AFNDtoAFD3 {
+public class AFNDtoAFD {
 
-	private List<TransicionIntermedia> transicionesIntermedias;
+	private List<Transicion> transicionesIntermedias;
 	private List<List<Estado>> conjuntoDeEstadosInicialesAFD;
 	private List<List<Estado>> conjuntoDeEstadosFinalesAFD;
 	private AFND afnd;
 	private Estado estadoBasura;
 
-	public AFD2 fromAFNDtoAFD(AFND afnd) {
+	public AFD fromAFNDtoAFD(AFND afnd) {
 
 		this.afnd = afnd;
-		this.transicionesIntermedias = new ArrayList<TransicionIntermedia>();
+		this.transicionesIntermedias = new ArrayList<Transicion>();
 		this.conjuntoDeEstadosInicialesAFD = new ArrayList<>();
 		this.conjuntoDeEstadosFinalesAFD = new ArrayList<>();
 		
@@ -40,7 +40,7 @@ public class AFNDtoAFD3 {
 		
 		  
 		  
-		return new AFD2(this.afnd.getAlfabetoInput(), this.conjuntoDeEstadosInicialesAFD, this.conjuntoDeEstadosFinalesAFD, this.transicionesIntermedias);
+		return new AFD(this.afnd.getAlfabetoInput(), this.conjuntoDeEstadosInicialesAFD, this.conjuntoDeEstadosFinalesAFD, this.transicionesIntermedias);
 	}
 
 	// Agrego transiciones intermedias de una lista de estados
@@ -50,7 +50,7 @@ public class AFNDtoAFD3 {
 		
 		// esta es la lista de transicionesIntermedias del conjunto de estados pasado
 		// como parametro
-		List<TransicionIntermedia> transicionesIntermediasConjunto = new ArrayList<>();
+		List<Transicion> transicionesIntermediasConjunto = new ArrayList<>();
 
 		// Repito la operacion para todos los estados del conjunto pasado como
 		// parametro
@@ -61,15 +61,15 @@ public class AFNDtoAFD3 {
 			// que estoy recorriendo
 			// y agregarlas como transiciones intermedias
 			for (Transicion transicion : this.afnd.getTransiciones()) {
-			
+				
 				// SI es una transicion de uno de los estados del parametro
-				if (transicion.getEstadoInicial().getValor() == estado.getValor()) {
-
+				if (transicion.getEstadoInicial().get(0).getValor() == estado.getValor()) {
+					System.out.println(transicion.toString()+" ES UNA TRANSICION DEL ESTADO {"+estado.getValor()+"}");
 					// si no tengo ninguna transicion intermedia, me creo una nueva transicion, y le
 					// seteo como estado inicial
 					// el conjunto que recibi como parametro, luego la agrego.
 					if (transicionesIntermediasConjunto.isEmpty()) {
-						TransicionIntermedia transicionNueva = new TransicionIntermedia(transicion);
+						Transicion transicionNueva = new Transicion(transicion.getEstadoInicial().get(0), transicion.getInput(), transicion.getEstadoFinal().get(0));
 						transicionNueva.setEstadoInicial(estados);
 						transicionesIntermediasConjunto.add(transicionNueva);
 					}
@@ -77,7 +77,7 @@ public class AFNDtoAFD3 {
 					// SI TENGO UNA TRANSICION INTERMEDIA, ME FIJO SI TENGO UNA CON ESE char de
 					// INPUT
 					else if (this.existeTransicionConChar(transicion.getInput(), transicionesIntermediasConjunto)) {
-						this.agregarEstadoFinal(transicion.getInput(), transicion.getEstadoFinal(),
+						this.agregarEstadoFinal(transicion.getInput(), transicion.getEstadoFinal().get(0),
 								transicionesIntermediasConjunto);
 					}
 
@@ -85,7 +85,7 @@ public class AFNDtoAFD3 {
 					// PARA EL SIMBOLO INICIAL CON EL INPUT. Ademas le seteo como estado inicial el
 					// conjunto de estados de parametro
 					else {
-						TransicionIntermedia transicionIntermediaNueva = new TransicionIntermedia(transicion);
+						Transicion transicionIntermediaNueva = new Transicion(transicion.getEstadoInicial().get(0), transicion.getInput(), transicion.getEstadoFinal().get(0));
 						transicionIntermediaNueva.setEstadoInicial(estados);
 						transicionesIntermediasConjunto.add(transicionIntermediaNueva);
 					}
@@ -105,19 +105,28 @@ public class AFNDtoAFD3 {
 		// AFD). SI YA LOS AGREGUE, NO LOS AGREGO
 		// SI NO LOS AGREGUE, LOS AGREGO Y QUE SIGA ITERANDO
 		
-		for (TransicionIntermedia transicionIntermedia : transicionesIntermediasConjunto) {
+		for (Transicion transicionIntermedia : transicionesIntermediasConjunto) {
+			System.out.println("CREE LA TRANSICION "+transicionIntermedia.toString());
 			transicionIntermedia.setEstadoFinal(this.ordenarListaEstados(transicionIntermedia.getEstadoFinal()));
 			this.transicionesIntermedias.add(transicionIntermedia);
 			this.agregarEstadoFinalComoInicialDeAFD(transicionIntermedia.getEstadoFinal());
 		}
-
+		
+		System.out.println(" HASTA ACA TENGO LAS TRANSICIONES :");
+		for(Transicion t : this.transicionesIntermedias)
+			System.out.println(t.toString());
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
 	}
 
 	// Metodo para saber si tengo una transicion intermedia con un input
 	// para el símbolo inicial
-	private boolean existeTransicionConChar(char input, List<TransicionIntermedia> transicionesIntermedias) {
+	private boolean existeTransicionConChar(char input, List<Transicion> transicionesIntermedias) {
 
-		for (TransicionIntermedia transicionIntermedia : transicionesIntermedias) {
+		for (Transicion transicionIntermedia : transicionesIntermedias) {
 			if (transicionIntermedia.getInput() == input)
 				return true;
 		}
@@ -127,9 +136,9 @@ public class AFNDtoAFD3 {
 
 	// Metodo para agregar un estado final a una transicion intermedia
 	private void agregarEstadoFinal(char input, Estado estadoFinal,
-		List<TransicionIntermedia> transicionesIntermedias) {
+		List<Transicion> transicionesIntermedias) {
 
-		for (TransicionIntermedia transicionIntermedia : transicionesIntermedias) {
+		for (Transicion transicionIntermedia : transicionesIntermedias) {
 			if (transicionIntermedia.getInput() == input) {
 				
 				//Si ya lo tengo agregado al estado final, corto la llamada al metodo sin agregarlo
@@ -175,13 +184,18 @@ public class AFNDtoAFD3 {
 	// METODO PARA SABER SI YA AGREGUE UN SUBCONJUNTO DE ESTADOS FINAL DEL AFND COMO
 	// INICIAL DEL AFD
 	private boolean existeEstadoComoInicial(List<Estado> estadosFinalesComoInicial) {
-
+		System.out.print("{ ");
+		for(Estado e : estadosFinalesComoInicial)
+			System.out.print(e.getValor()+",");
+		System.out.print(" }");
+		
 		for (List<Estado> estadoInicialAFD : this.conjuntoDeEstadosInicialesAFD) {
-			if (this.tienenLosMismosEstados(estadoInicialAFD, estadosFinalesComoInicial)) {				
+			if (this.tienenLosMismosEstados(estadoInicialAFD, estadosFinalesComoInicial)) {
+				System.out.println(" YA LO TENIA COMO ESTADO");
 				return true;
 			}
 		}
-
+		System.out.println(" NO LO TENIA COMO ESTADO");
 		return false;
 	}
 
@@ -215,7 +229,7 @@ public class AFNDtoAFD3 {
 		for(List<Estado> estadoInicialAFD : conjuntoDeEstadosInicialesAFD) {
 			
 			//OBTENGO LAS TRANSICIONES INTERMEDIAS DE EL ESTADO INICIAL
-			List<TransicionIntermedia> transicionesEstadoInicialAFD = this.obtenerTransicionesEstadoAFD(estadoInicialAFD);
+			List<Transicion> transicionesEstadoInicialAFD = this.obtenerTransicionesEstadoAFD(estadoInicialAFD);
 			
 			//VEO SI EXISTEN TRANSICION CON TODOS LOS CARACTERES DEL ALFABETO
 			for(char charInput : this.afnd.getAlfabetoInput()) {
@@ -225,7 +239,7 @@ public class AFNDtoAFD3 {
 
 					List<Estado> estadoFinalFaltante = new ArrayList<Estado>();
 					estadoFinalFaltante.add(this.estadoBasura);
-					TransicionIntermedia transicionIntermediaFaltante = new TransicionIntermedia(estadoInicialAFD, charInput, estadoFinalFaltante);
+					Transicion transicionIntermediaFaltante = new Transicion(estadoInicialAFD, charInput, estadoFinalFaltante);
 					this.transicionesIntermedias.add(transicionIntermediaFaltante);
 				}
 			}
@@ -236,11 +250,11 @@ public class AFNDtoAFD3 {
 
 	
 	//METODO PARA OBTENER LAS TRANSICIONES INTERMEDIAS DE UN ESTADO INICIAL DEL AFD
-	private List<TransicionIntermedia> obtenerTransicionesEstadoAFD(List<Estado> estadoInicialAFD) {
+	private List<Transicion> obtenerTransicionesEstadoAFD(List<Estado> estadoInicialAFD) {
 
-		List<TransicionIntermedia> ret = new ArrayList<>();
+		List<Transicion> ret = new ArrayList<>();
 		
-		for(TransicionIntermedia transicion : this.transicionesIntermedias) {
+		for(Transicion transicion : this.transicionesIntermedias) {
 			if(this.tienenLosMismosEstados(transicion.getEstadoInicial(), estadoInicialAFD)) {
 				ret.add(transicion);
 			}
@@ -287,7 +301,7 @@ public class AFNDtoAFD3 {
 			for(List<Estado> estadoInicialAFD : conjuntoDeEstadosInicialesAFD) {
 				
 				//OBTENGO LAS TRANSICIONES INTERMEDIAS DE EL ESTADO INICIAL
-				List<TransicionIntermedia> transicionesEstadoInicialAFD = this.obtenerTransicionesEstadoAFD(estadoInicialAFD);
+				List<Transicion> transicionesEstadoInicialAFD = this.obtenerTransicionesEstadoAFD(estadoInicialAFD);
 				
 				//VEO SI EXISTEN TRANSICION CON TODOS LOS CARACTERES DEL ALFABETO
 				for(char charInput : this.afnd.getAlfabetoInput()) {
