@@ -2,6 +2,7 @@ package model.AFNDtoAFD;
 
 import model.domain.AFD;
 import model.domain.AFND;
+import model.graphViz.AFNDtoDotString;
 import model.input.InputReader;
 
 public class Main {
@@ -65,7 +66,10 @@ public class Main {
 		
 		
 		System.out.println(afd.toString());
-		System.out.println(afd.procesarString("a"));
+		System.out.println(afd.procesarString("arrrrra"));
+		
+		AFNDtoDotString dot = new AFNDtoDotString();
+		dot.graficarAutomata(afd.getEstadosFinales(), afd.getTransiciones());
 		
 	}
 

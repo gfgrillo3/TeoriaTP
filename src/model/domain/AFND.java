@@ -9,7 +9,7 @@ public class AFND {
 
 	// PROBABLEMENTE LIST STRING?
 	char[] alfabetoInput;
-	Estado estadoInicial = new Estado(1);
+	List<Estado> estadoInicial;
 	List<Estado> estados;
 	List<Estado> estadosFinales;
 	List<Transicion> transiciones;
@@ -27,6 +27,9 @@ public class AFND {
 	// INICIALIZAR ESTADOS DEL AFD, COMIENZA EN 1 Y SON CORRELATIVOS POR DEFINICION
 	private void inicializarEstados(int cantEstados) {
 
+		this.estadoInicial = new ArrayList<>();
+		this.estadoInicial.add(new Estado(1));
+		
 		this.estados = new ArrayList<Estado>();
 
 		int i = 1;

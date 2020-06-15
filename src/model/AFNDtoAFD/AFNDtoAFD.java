@@ -10,6 +10,8 @@ import model.domain.Estado;
 import model.domain.Transicion;
 import model.domain.Transicion;
 
+
+
 public class AFNDtoAFD {
 
 	private List<Transicion> transicionesIntermedias;

@@ -123,5 +123,28 @@ public class AFD {
 				transiciones;
 	}
 
+	public char[] getAlfabetoInput() {
+		return alfabetoInput;
+	}
+
+	public List<Estado> getEstadoInicial() {
+		return estadoInicial;
+	}
+
+	public List<List<Estado>> getEstados() {
+		return estados;
+	}
+
+	public List<List<Estado>> getEstadosFinales() {
+		return estadosFinales;
+	}
+
+	public List<Transicion> getTransiciones() {
+		return transiciones;
+	}
+	
+	
+	
+
 	
 }
