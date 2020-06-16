@@ -1,11 +1,18 @@
-package model.AFNDtoAFD;
+package main;
 
+import controller.ControladorPrincipal;
+import model.AFNDtoAFD.AFNDtoAFD;
 import model.domain.AFD;
 import model.domain.AFND;
-import model.graphViz.AFNDtoDotString;
+import model.graphViz.AutomataToDotString;
 import model.input.InputReader;
+import view.MainWindow;
 
 public class Main {
+	
+	static {
+	     System.setProperty("java.awt.headless", "false");
+	}
 
 	public static void main(String[] args) {
 
@@ -56,9 +63,11 @@ public class Main {
 		}
 		*/
 		
+		
+		/*
 		InputReader input = new InputReader();
 		
-		AFND afnd = input.crearAFND();
+		AFND afnd = InputReader.crearAFND();
 		
 		
 		AFNDtoAFD a = new AFNDtoAFD();
@@ -68,9 +77,17 @@ public class Main {
 		System.out.println(afd.toString());
 		System.out.println(afd.procesarString("arrrrra"));
 		
-		AFNDtoDotString dot = new AFNDtoDotString();
+		AutomataToDotString dot = new AutomataToDotString();
 		dot.graficarAutomata(afd.getEstadosFinales(), afd.getTransiciones());
+		*/
+			
+		MainWindow vista = new MainWindow();
+		ControladorPrincipal controlador = new ControladorPrincipal(vista);
+		controlador.inicializarVentanaPrincipal();
+
 		
 	}
 
 }
+	
+

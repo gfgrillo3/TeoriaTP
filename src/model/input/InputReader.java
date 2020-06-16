@@ -12,9 +12,9 @@ import model.domain.Transicion;
 
 public class InputReader {
 
-	public AFND crearAFND() {
+	public static AFND crearAFND(File archivo) {
 
-		File archivo = null;
+		//File archivo = null;
 		FileReader fr = null;
 		BufferedReader br = null;
 		
@@ -26,7 +26,7 @@ public class InputReader {
 		try {
 			// Apertura del fichero y creacion de BufferedReader para poder
 			// hacer una lectura comoda (disponer del metodo readLine()).
-			archivo = new File("C:\\Users\\Franco\\Desktop\\afndClase.txt");
+			//archivo = new File("C:\\Users\\Franco\\Desktop\\afndClase.txt");
 			fr = new FileReader(archivo);
 			br = new BufferedReader(fr);
 
@@ -68,7 +68,7 @@ public class InputReader {
 		return convertirInputEnAFND(alfabeto, cantidadEstados, estadosFinales, transiciones);
 	}
 	
-	private AFND convertirInputEnAFND(String alfabeto, int cantidadEstados, String[] estadosFinales,
+	private static AFND convertirInputEnAFND(String alfabeto, int cantidadEstados, String[] estadosFinales,
 			List<Transicion> transiciones) {
 		
 		char[] alfabetoInputAFMD;
@@ -84,7 +84,7 @@ public class InputReader {
 		return afnd;
 	}
 
-	public Transicion crearTransicion(String lineaTransicion){
+	public static Transicion crearTransicion(String lineaTransicion){
 		
 		String lineaLimpiaDeEspacios = limpiarEspaciosBlancos(lineaTransicion);
 		String estadoInicial = "";
@@ -127,7 +127,7 @@ public class InputReader {
 	}
 	 
 	
-	private String limpiarEspaciosBlancos(String linea){
+	private static String limpiarEspaciosBlancos(String linea){
 		String lineaLimpia = linea.replace(" ", "");
 		return lineaLimpia;
 	}

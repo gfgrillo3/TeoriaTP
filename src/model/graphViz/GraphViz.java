@@ -10,16 +10,21 @@ import guru.nidi.graphviz.parse.Parser;
 public class GraphViz
 {
 	
-	public static void drawer(String automata) {
+	public static File drawer(String automata) {
+		
+		File archivo = null;
 		
 		MutableGraph g;
 		try {
 			g = new Parser().read(automata);
-			Graphviz.fromGraph(g).width(700).render(Format.PNG).toFile(new File("graphs/graphVizGen.png"));
+			archivo = Graphviz.fromGraph(g).width(700).render(Format.PNG).toFile(new File("graphs/graphVizGen.png"));
+			//Graphviz.fromGraph(g).width(700).render(Format.PNG).toFile(archivo);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return archivo;
 
 	}
 
