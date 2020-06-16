@@ -12,6 +12,7 @@ import model.AFNDtoAFD.AFNDtoAFD;
 import model.domain.AFD;
 import model.input.InputReader;
 import model.logica.GraficadorAutomata;
+import model.solver.AFDSolver;
 import view.AutomatasWindow;
 import view.MainWindow;
 
@@ -44,6 +45,7 @@ public class ControladorPrincipal implements ActionListener {
 			this.ventanaAutomatas.getBtnVolver().addActionListener(this);
 			this.ventanaAutomatas.getBtnConvertir().addActionListener(this);
 			this.ventanaAutomatas.getBtnGraficar().addActionListener(this);
+			this.ventanaAutomatas.getBtnProcesar().addActionListener(this);
 		}
 		this.ventanaAutomatas.show();
 	}
@@ -72,6 +74,7 @@ public class ControladorPrincipal implements ActionListener {
 				this.ventanaAutomatas.getBtnConvertir().setVisible(true);
 				automataConvertido = false;
 			}
+			this.mostrarOcultarProcesarString(false);
 		}
 		else if (e.getSource() == this.ventanaAutomatas.getBtnGraficar()) {
 			if(automataConvertido)
@@ -83,6 +86,11 @@ public class ControladorPrincipal implements ActionListener {
 			AFNDtoAFD converter = new AFNDtoAFD();
 			afd = converter.fromAFNDtoAFD(InputReader.crearAFND(archivoSeleccionado));
 			automataConvertido = true;
+			this.mostrarOcultarProcesarString(true);
+			
+		}
+		else if (e.getSource() == this.ventanaAutomatas.getBtnProcesar()) {
+			this.ventanaAutomatas.getLblAceptarRechazar().setText(AFDSolver.resolver(afd, this.ventanaAutomatas.getTxtString().getText()));
 		}
 		else if (e.getSource() == this.ventanaAutomatas.getBtnVolver()) {
 			archivoSeleccionado = null;
@@ -90,9 +98,23 @@ public class ControladorPrincipal implements ActionListener {
 			this.ventanaAutomatas.getLblNombreArchivo().setText("");
 			this.ventanaAutomatas.getBtnGraficar().setVisible(false);
 			this.ventanaAutomatas.getBtnConvertir().setVisible(false);
+			this.mostrarOcultarProcesarString(true);
 			this.ventanaAutomatas.getFrame().dispose();
 			this.inicializarVentanaPrincipal();
 		}
 
 	}
+	
+	
+	private void mostrarOcultarProcesarString(boolean bool) {
+		this.ventanaAutomatas.getLblAceptarRechazar().setVisible(bool);
+		this.ventanaAutomatas.getLblResultado().setVisible(bool);
+		this.ventanaAutomatas.getBtnProcesar().setVisible(bool);
+		this.ventanaAutomatas.getTxtString().setVisible(bool);
+		this.ventanaAutomatas.getLblString().setVisible(bool);
+	}
+	
+	
+	
+	
 }

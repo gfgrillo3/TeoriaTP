@@ -5,10 +5,16 @@ import model.domain.AFD;
 public class AFDSolver {
 	
 	
-	public boolean resolver(AFD afd) {
+	public static String resolver(AFD afd, String string) {
 		
+		if(!StringValidator.validarString(afd, string))
+			return "STRING INVALIDO";
 		
-		return false;
+		if(afd.procesarString(string)) 
+			return "ACEPTADO";
+			
+		return "RECHAZADO";
+
 	}
 
 }

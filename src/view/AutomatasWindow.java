@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 
 public class AutomatasWindow{
 
@@ -23,6 +24,12 @@ public class AutomatasWindow{
 	private JLabel lblNombreArchivo;
 	private JButton btnGraficar;
 	private JButton btnConvertir;
+	private JLabel lblString;
+	private JTextField txtString;
+	private JLabel lblResultado;
+	private JLabel lblAceptarRechazar;
+	private JButton btnProcesar;
+	
 
 	public AutomatasWindow() 
 	{
@@ -75,6 +82,32 @@ public class AutomatasWindow{
 		btnConvertir.setBounds(179, 70, 159, 23);
 		panel.add(btnConvertir);
 		btnConvertir.setVisible(false);
+		
+		lblString = new JLabel("String");
+		lblString.setBounds(10, 104, 127, 48);
+		panel.add(lblString);
+		lblString.setVisible(false);
+		
+		txtString = new JTextField();
+		txtString.setBounds(155, 118, 183, 20);
+		panel.add(txtString);
+		txtString.setColumns(10);
+		txtString.setVisible(false);
+		
+		lblResultado = new JLabel("Resultado:");
+		lblResultado.setBounds(10, 148, 127, 48);
+		panel.add(lblResultado);
+		lblResultado.setVisible(false);
+		
+		lblAceptarRechazar = new JLabel("");
+		lblAceptarRechazar.setBounds(154, 148, 184, 48);
+		panel.add(lblAceptarRechazar);
+		lblAceptarRechazar.setVisible(false);
+		
+		btnProcesar = new JButton("Procesar");
+		btnProcesar.setBounds(348, 117, 89, 23);
+		panel.add(btnProcesar);
+		btnProcesar.setVisible(false);
 	}
 	
 	public void show()
@@ -123,6 +156,42 @@ public class AutomatasWindow{
 	public JButton getBtnConvertir() {
 		return btnConvertir;
 	}
+
+
+	public JLabel getLblMadeBy() {
+		return lblMadeBy;
+	}
+
+
+	public JLabel getLblArchivoSeleccionado() {
+		return lblArchivoSeleccionado;
+	}
+
+
+	public JLabel getLblString() {
+		return lblString;
+	}
+
+
+	public JTextField getTxtString() {
+		return txtString;
+	}
+
+
+	public JLabel getLblResultado() {
+		return lblResultado;
+	}
+
+
+	public JLabel getLblAceptarRechazar() {
+		return lblAceptarRechazar;
+	}
+
+
+	public JButton getBtnProcesar() {
+		return btnProcesar;
+	}
+	
 	
 	
 }
