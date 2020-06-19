@@ -85,7 +85,6 @@ public class Main {
 		ControladorPrincipal controlador = new ControladorPrincipal(vista);
 		controlador.inicializarVentanaPrincipal();
 
-		
 	}
 
 }
