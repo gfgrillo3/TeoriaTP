@@ -50,13 +50,21 @@ public class FirstFollow {
 				else {
 					int i = 0;
 			
+					//SI ES LA PRIMER VARIABLE DEL LADO DERECHO DE LA PRODUCCION
+					//O SI ES UNA VARIABLE ANULABLE, ENTRO PARA VER LOS FIRST DEL SIMBOLO QUE SIGUE
+					//SIEMPREY CUANDO, TENGA ALGÚN SÍMBOLO SIGUIENTE
 					while(produccion.getCuerpo().size()>i && (i == 0 || isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i-1))))) {
+						
+						//ME GUARDO LOS FIRSTS DE LA VARIABLE EN LA QUE ESTOY
 						char[] firstsVariable = getFirstVariable(produccion.getCuerpo().get(i), gramatica);
 						
+						//UNA VEZ QUE TENGO LOS FIRST, ME FIJO SI NO LOS HABÍA AGREGADO
+						//SI LOS AGREGUE, NO LOS AGREGO, SINO SI
 						for(char first : firstsVariable) {
 							conjunto += (existeCharEnArray(conjunto.toCharArray(), first) ? "": first);
 						}
 	
+						//REVISO EL SIGUIENTE SIMBOLO
 						i++;
 					}	
 				}
@@ -66,6 +74,9 @@ public class FirstFollow {
 	}
 
 	
+	//SI HAY UNA PRODUCCION QUE DERIVA A EPSILON, EL SIMBOLO ES ANULABLE
+	//FUNCION QUE RECIBE LAS PRODUCCIONES DE UNA VARIABLE
+	//Y DETERMINA SI ES ANULABLE
 	private static boolean isAnulable(List<Produccion> produccionesVariable) {		
 		
 		for(Produccion produccion : produccionesVariable) {
@@ -76,7 +87,8 @@ public class FirstFollow {
 		return false;
 	}
 	
-	
+	//FUNCION QUE RECIBE UN CHAR Y UN CHAR ARRAY
+	//Y DEVUELVE SI EL CHAR YA EXISTIA EN EL CHAR ARRAY
 	private static boolean existeCharEnArray(char[] charArray, char c) {
 		
 		for(char caracter : charArray )
