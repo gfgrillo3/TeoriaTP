@@ -1,5 +1,6 @@
 package model.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Gramatica {
@@ -9,9 +10,10 @@ public class Gramatica {
 	Variable simboloInicial = new Variable("X_{1}") ;
 	List<Produccion> producciones;
 	
-	public Gramatica(List<Produccion> producciones) {
+	public Gramatica(List<Produccion> producciones, List<Variable> variables, char[] terminales) {
 		this.producciones = producciones;
-		//inicializar demas variables
+		this.variables = variables;
+		this.terminales = terminales;
 	}
 
 	public char[] getTerminales() {
@@ -44,6 +46,18 @@ public class Gramatica {
 
 	public void setProducciones(List<Produccion> producciones) {
 		this.producciones = producciones;
+	}
+	
+	public List<Produccion> getProduccionesVariable(String variable){
+		
+		List<Produccion> produccionesVariable = new ArrayList<Produccion>();
+		
+		for(Produccion produccion : this.producciones) {
+			if(produccion.getVariable().getVariable().equals(variable))
+				produccionesVariable.add(produccion);
+		}
+		
+		return produccionesVariable;
 	}
 	
 }

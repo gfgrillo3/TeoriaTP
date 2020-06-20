@@ -1,11 +1,18 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import controller.ControladorPrincipal;
 import model.AFNDtoAFD.AFNDtoAFD;
 import model.domain.AFD;
 import model.domain.AFND;
+import model.domain.Gramatica;
+import model.domain.Produccion;
+import model.domain.Variable;
 import model.graphViz.AutomataToDotString;
 import model.input.InputReader;
+import model.parserNRP.FirstFollow;
 import view.MainWindow;
 
 public class Main {
@@ -80,11 +87,83 @@ public class Main {
 		AutomataToDotString dot = new AutomataToDotString();
 		dot.graficarAutomata(afd.getEstadosFinales(), afd.getTransiciones());
 		*/
-			
+		/*
 		MainWindow vista = new MainWindow();
 		ControladorPrincipal controlador = new ControladorPrincipal(vista);
 		controlador.inicializarVentanaPrincipal();
-
+		 */
+		
+		/*
+		
+		X_{1} -> X_{2}
+		X_{1} -> z
+		X_{1} -> #
+		
+		X_{2} -> r
+		
+		X_{3} -> X_{4}
+		
+		X_{4} -> z	
+		
+		X_{5} -> #
+		
+		*/
+		Variable v1 = new Variable("X_{1}");
+		Variable v2 = new Variable("X_{2}");
+		Variable v3 = new Variable("X_{3}");
+		Variable v4 = new Variable("X_{4}");
+		Variable v5 = new Variable("X_{5}");
+		
+		ArrayList<String> cuerpoProdsV1 = new ArrayList<String>();
+		cuerpoProdsV1.add("z");
+		cuerpoProdsV1.add("X_{2}");
+		cuerpoProdsV1.add("X_{5}");
+		Produccion prodV1 = new Produccion(v1, cuerpoProdsV1);
+		
+		ArrayList<String> cuerpoProdsV2 = new ArrayList<String>();
+		cuerpoProdsV2.add("r");
+		Produccion prodV2 = new Produccion(v2, cuerpoProdsV2);
+		
+		ArrayList<String> cuerpoProdsV3 = new ArrayList<String>();
+		cuerpoProdsV3.add("X_{4}");
+		Produccion prodV3 = new Produccion(v3, cuerpoProdsV3);
+		
+		ArrayList<String> cuerpoProdsV4 = new ArrayList<String>();
+		cuerpoProdsV4.add("z");
+		Produccion prodV4 = new Produccion(v4, cuerpoProdsV4);
+		
+		ArrayList<String> cuerpoProdsV5 = new ArrayList<String>();
+		cuerpoProdsV5.add("#");
+		Produccion prodV5 = new Produccion(v5, cuerpoProdsV5);
+		
+		
+		ArrayList<Produccion> produccionesGramatica = new ArrayList<Produccion>();
+		produccionesGramatica.add(prodV1);
+		produccionesGramatica.add(prodV2);
+		produccionesGramatica.add(prodV3);
+		produccionesGramatica.add(prodV4);
+		produccionesGramatica.add(prodV5);
+		
+		ArrayList<Variable> variablesGramatica = new ArrayList<Variable>();
+		variablesGramatica.add(v1);
+		variablesGramatica.add(v2);
+		variablesGramatica.add(v3);
+		variablesGramatica.add(v4);
+		variablesGramatica.add(v5);
+		
+		Gramatica gramatica = new Gramatica(produccionesGramatica, variablesGramatica, new char[]{'r','z'});
+		
+		HashMap<String, char[]> firstGramatica = FirstFollow.getFirst(gramatica);
+		
+		firstGramatica.forEach((variable,firsts) -> System.out.println("Variable: " + variable + " --->  FIRSTS : " + charArrayPrint(firsts)));
+		
+	}
+	
+	private static String charArrayPrint(char[] charArr) {
+		String ret = "";
+		for(char c : charArr)
+			ret += c+" ,";
+		return ret;
 	}
 
 }
