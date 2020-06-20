@@ -95,17 +95,18 @@ public class Main {
 		
 		/*
 		
-		X_{1} -> X_{2}
-		X_{1} -> z
-		X_{1} -> #
+		X_{1} -> X_{2}z
+		X_{1} -> X_{5}w
+		X_{1} -> X_{5}X_{2}y
 		
-		X_{2} -> r
+		X_{2} -> #
 		
 		X_{3} -> X_{4}
 		
 		X_{4} -> z	
 		
 		X_{5} -> #
+
 		
 		*/
 		Variable v1 = new Variable("X_{1}");
@@ -115,13 +116,13 @@ public class Main {
 		Variable v5 = new Variable("X_{5}");
 		
 		ArrayList<String> cuerpoProdsV1 = new ArrayList<String>();
-		cuerpoProdsV1.add("z");
 		cuerpoProdsV1.add("X_{2}");
-		cuerpoProdsV1.add("X_{5}");
+		cuerpoProdsV1.add("z");
 		Produccion prodV1 = new Produccion(v1, cuerpoProdsV1);
 		
 		ArrayList<String> cuerpoProdsV2 = new ArrayList<String>();
-		cuerpoProdsV2.add("r");
+		//cuerpoProdsV2.add("r");
+		cuerpoProdsV2.add("#");
 		Produccion prodV2 = new Produccion(v2, cuerpoProdsV2);
 		
 		ArrayList<String> cuerpoProdsV3 = new ArrayList<String>();
@@ -136,6 +137,17 @@ public class Main {
 		cuerpoProdsV5.add("#");
 		Produccion prodV5 = new Produccion(v5, cuerpoProdsV5);
 		
+		ArrayList<String> cuerpoProdsV1a5 = new ArrayList<String>();
+		cuerpoProdsV1a5.add("X_{5}");
+		cuerpoProdsV1a5.add("w");
+		Produccion prodV1a5 = new Produccion(v1, cuerpoProdsV1a5);
+		
+		ArrayList<String> cuerpoProdsV1a5y2 = new ArrayList<String>();
+		cuerpoProdsV1a5y2.add("X_{5}");
+		cuerpoProdsV1a5y2.add("X_{2}");
+		cuerpoProdsV1a5y2.add("y");
+		Produccion prodV1a5y2 = new Produccion(v1, cuerpoProdsV1a5y2);
+		
 		
 		ArrayList<Produccion> produccionesGramatica = new ArrayList<Produccion>();
 		produccionesGramatica.add(prodV1);
@@ -143,6 +155,8 @@ public class Main {
 		produccionesGramatica.add(prodV3);
 		produccionesGramatica.add(prodV4);
 		produccionesGramatica.add(prodV5);
+		produccionesGramatica.add(prodV1a5);
+		produccionesGramatica.add(prodV1a5y2);
 		
 		ArrayList<Variable> variablesGramatica = new ArrayList<Variable>();
 		variablesGramatica.add(v1);
@@ -151,7 +165,7 @@ public class Main {
 		variablesGramatica.add(v4);
 		variablesGramatica.add(v5);
 		
-		Gramatica gramatica = new Gramatica(produccionesGramatica, variablesGramatica, new char[]{'r','z'});
+		Gramatica gramatica = new Gramatica(produccionesGramatica, variablesGramatica, new char[]{'r','z', 'w', 'y'});
 		
 		HashMap<String, char[]> firstGramatica = FirstFollow.getFirst(gramatica);
 		

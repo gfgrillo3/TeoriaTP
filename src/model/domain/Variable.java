@@ -9,11 +9,11 @@ public class Variable {
 		this.variable = variable;
 	}
 
-	public String getVariable() {
+	public String getStringVariable() {
 		return variable;
 	}
 
-	public void setVariable(String variable) {
+	public void setStringVariable(String variable) {
 		this.variable = variable;
 	}
 

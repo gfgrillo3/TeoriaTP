@@ -53,7 +53,7 @@ public class Gramatica {
 		List<Produccion> produccionesVariable = new ArrayList<Produccion>();
 		
 		for(Produccion produccion : this.producciones) {
-			if(produccion.getVariable().getVariable().equals(variable))
+			if(produccion.getVariable().getStringVariable().equals(variable))
 				produccionesVariable.add(produccion);
 		}
 		
