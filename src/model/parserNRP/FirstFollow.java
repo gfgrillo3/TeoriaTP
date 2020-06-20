@@ -98,4 +98,66 @@ public class FirstFollow {
 		return false;
 	}
 	
+	//---------------------------------FOLLOW-----------------------------------//
+	
+	public static HashMap<String, char[]> getFollow(Gramatica gramatica){
+		
+		//OBTENGO LOS FIRST DE LA GRAMATICA
+		HashMap<String, char[]> firstHashMap = new HashMap<String, char[]>();
+		firstHashMap = getFirst(gramatica);
+		
+		HashMap<String, char[]> followHashMap = new HashMap<String, char[]>();
+		
+		//RECORRO CADA VARIABLE Y BUSCO SUS FOLLOWS PARA AGREGAR AL HASHMAP
+		for(Variable variable: gramatica.getVariables()) {
+			followHashMap.put(variable.getStringVariable(), getFollowVariable(variable.getStringVariable(),gramatica, firstHashMap));
+		}
+		
+		return followHashMap;
+	}
+
+	private static char[] getFollowVariable(String variable, Gramatica gramatica,
+			HashMap<String, char[]> firstHashMap) {
+		
+		String conjunto = "";
+		
+		if(variable.equals(gramatica.getSimboloInicial().getStringVariable()))
+			conjunto += "$";
+		
+		//RECORRO CADA PRODUCCION DONDE APARECE LA variable
+		for(Produccion produccion : gramatica.getProduccionesFollow(variable)) {
+			//DE CADA PRODUCCION RECORRO TODA SU PARTE DERECHA BUSCANDO LA variable
+			for(int i = 0; produccion.getCuerpo().size()>i; i++) {
+				//SI Yi ES UN TERMINAL NO HAGO NADA
+				if(!esTerminal(produccion.getCuerpo().get(i))) {
+					//SI Yi ES UNA VARIABLE PRIMERO CHEQUEO SI ES IGUAL A variable
+					//LUEGO TOMO LOS FIRST DE LA DERECHA (SI EXISTE) 
+					if(produccion.getCuerpo().get(i).equals(variable) && i+1<produccion.getCuerpo().size()) {
+						conjunto += new String(getFirstVariable(produccion.getCuerpo().get(i+1), gramatica));
+						//ELIMINO EL EPSILON
+						conjunto = conjunto.replaceAll("[#]", "");
+					}
+					//SI A LA DERECHA NO HAY MAS NADA O SI ES ANULABLE AGREGO LOS FOLLOWS DE variable
+					if(i+1 == produccion.getCuerpo().size() || 
+							isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i+1)))) {
+						conjunto += new String(getFollowVariable(produccion.getVariable().getStringVariable(),
+								gramatica, firstHashMap));
+					}
+				}
+			}
+			
+		}
+		
+		return conjunto.toCharArray();
+	}
+	
+	private static boolean esTerminal(String string) {
+		char primerCharProduccion = string.charAt(0);
+		int asciiFirstCuerpoProduccion = (int) primerCharProduccion;
+		
+		return ((97 <= asciiFirstCuerpoProduccion && asciiFirstCuerpoProduccion <= 122)
+				|| asciiFirstCuerpoProduccion == 35);
+	}
+		
+	
 }

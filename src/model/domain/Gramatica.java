@@ -60,4 +60,17 @@ public class Gramatica {
 		return produccionesVariable;
 	}
 	
+	public List<Produccion> getProduccionesFollow(String variable){
+		
+		List<Produccion> produccionesFollow = new ArrayList<Produccion>();
+		
+		for(Produccion produccion : this.producciones) {
+			for(String var : produccion.getCuerpo())
+				if(var.equals(variable))
+					produccionesFollow.add(produccion);
+		}
+		
+		return produccionesFollow;
+	}
+	
 }

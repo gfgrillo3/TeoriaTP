@@ -119,7 +119,18 @@ public class Main {
 		cuerpoProdsV1.add("X_{2}");
 		cuerpoProdsV1.add("z");
 		Produccion prodV1 = new Produccion(v1, cuerpoProdsV1);
+
+		ArrayList<String> cuerpoProdsV1a5 = new ArrayList<String>();
+		cuerpoProdsV1a5.add("X_{5}");
+		cuerpoProdsV1a5.add("w");
+		Produccion prodV1a5 = new Produccion(v1, cuerpoProdsV1a5);
 		
+		ArrayList<String> cuerpoProdsV1a5y2 = new ArrayList<String>();
+		cuerpoProdsV1a5y2.add("X_{5}");
+		cuerpoProdsV1a5y2.add("X_{2}");
+		cuerpoProdsV1a5y2.add("y");
+		Produccion prodV1a5y2 = new Produccion(v1, cuerpoProdsV1a5y2);
+
 		ArrayList<String> cuerpoProdsV2 = new ArrayList<String>();
 		//cuerpoProdsV2.add("r");
 		cuerpoProdsV2.add("#");
@@ -135,19 +146,7 @@ public class Main {
 		
 		ArrayList<String> cuerpoProdsV5 = new ArrayList<String>();
 		cuerpoProdsV5.add("#");
-		Produccion prodV5 = new Produccion(v5, cuerpoProdsV5);
-		
-		ArrayList<String> cuerpoProdsV1a5 = new ArrayList<String>();
-		cuerpoProdsV1a5.add("X_{5}");
-		cuerpoProdsV1a5.add("w");
-		Produccion prodV1a5 = new Produccion(v1, cuerpoProdsV1a5);
-		
-		ArrayList<String> cuerpoProdsV1a5y2 = new ArrayList<String>();
-		cuerpoProdsV1a5y2.add("X_{5}");
-		cuerpoProdsV1a5y2.add("X_{2}");
-		cuerpoProdsV1a5y2.add("y");
-		Produccion prodV1a5y2 = new Produccion(v1, cuerpoProdsV1a5y2);
-		
+		Produccion prodV5 = new Produccion(v5, cuerpoProdsV5);		
 		
 		ArrayList<Produccion> produccionesGramatica = new ArrayList<Produccion>();
 		produccionesGramatica.add(prodV1);
@@ -170,6 +169,11 @@ public class Main {
 		HashMap<String, char[]> firstGramatica = FirstFollow.getFirst(gramatica);
 		
 		firstGramatica.forEach((variable,firsts) -> System.out.println("Variable: " + variable + " --->  FIRSTS : " + charArrayPrint(firsts)));
+				
+		System.out.println("------------------------------------------------------------------");
+		
+		HashMap<String, char[]> followGramatica = FirstFollow.getFollow(gramatica);
+		followGramatica.forEach((variable,follows) -> System.out.println("Variable: " + variable + " --->  FOLLOWS : " + charArrayPrint(follows)));		
 		
 	}
 	
