@@ -1,9 +1,11 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -46,6 +48,7 @@ public class ControladorPrincipal implements ActionListener {
 			this.ventanaAutomatas.getBtnConvertir().addActionListener(this);
 			this.ventanaAutomatas.getBtnGraficar().addActionListener(this);
 			this.ventanaAutomatas.getBtnProcesar().addActionListener(this);
+			this.ventanaAutomatas.getBtnGuardar().addActionListener(this);
 		}
 		this.ventanaAutomatas.show();
 	}
@@ -57,6 +60,7 @@ public class ControladorPrincipal implements ActionListener {
 		if (e.getSource() == this.ventanaPrincipal.getBtnAutomata()) {
 			this.ventanaPrincipal.getFrame().dispose();
 			this.inicializarAutomatasWindow();
+			this.vaciarTxtStrings();
 		} else if (e.getSource() == this.ventanaPrincipal.getBtnGramaticas()) {
 			System.out.println("ABRIR VENTANA DE GRAMATICA");
 		}
@@ -84,13 +88,19 @@ public class ControladorPrincipal implements ActionListener {
 		}
 		else if (e.getSource() == this.ventanaAutomatas.getBtnConvertir()) {
 			AFNDtoAFD converter = new AFNDtoAFD();
-			afd = converter.fromAFNDtoAFD(InputReader.crearAFND(archivoSeleccionado));
-			automataConvertido = true;
+			this.afd = converter.fromAFNDtoAFD(InputReader.crearAFND(archivoSeleccionado));
+			this.automataConvertido = true;
 			this.mostrarOcultarProcesarString(true);
-			
+			this.vaciarTxtStrings();
+			this.ventanaAutomatas.getBtnGuardar().setVisible(true);
 		}
 		else if (e.getSource() == this.ventanaAutomatas.getBtnProcesar()) {
-			this.ventanaAutomatas.getLblAceptarRechazar().setText(AFDSolver.resolver(afd, this.ventanaAutomatas.getTxtString().getText()));
+			String resultado = AFDSolver.resolver(afd, this.ventanaAutomatas.getTxtString().getText());
+			if(resultado.equals("ACEPTADO"))	
+				this.ventanaAutomatas.getLblAceptarRechazar().setForeground(Color.GREEN);
+			else
+				this.ventanaAutomatas.getLblAceptarRechazar().setForeground(Color.RED);
+			this.ventanaAutomatas.getLblAceptarRechazar().setText(resultado);
 		}
 		else if (e.getSource() == this.ventanaAutomatas.getBtnVolver()) {
 			archivoSeleccionado = null;
@@ -98,9 +108,31 @@ public class ControladorPrincipal implements ActionListener {
 			this.ventanaAutomatas.getLblNombreArchivo().setText("");
 			this.ventanaAutomatas.getBtnGraficar().setVisible(false);
 			this.ventanaAutomatas.getBtnConvertir().setVisible(false);
+			this.ventanaAutomatas.getBtnGuardar().setVisible(false);
 			this.mostrarOcultarProcesarString(true);
 			this.ventanaAutomatas.getFrame().dispose();
 			this.inicializarVentanaPrincipal();
+			this.mostrarOcultarProcesarString(false);
+		}
+		else if (e.getSource() == this.ventanaAutomatas.getBtnGuardar()) {
+			
+			JFileChooser fileChooser = new JFileChooser();
+			int returnValue = fileChooser.showSaveDialog(null);
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				try {
+		            FileWriter fw = new FileWriter(fileChooser.getSelectedFile()+".txt");
+		            fw.write(this.afd.toString());
+		            fw.close();
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    
+			}
+
+		    
+			
+			
+			
 		}
 
 	}
@@ -114,6 +146,10 @@ public class ControladorPrincipal implements ActionListener {
 		this.ventanaAutomatas.getLblString().setVisible(bool);
 	}
 	
+	private void vaciarTxtStrings() {
+		this.ventanaAutomatas.getLblAceptarRechazar().setText("");
+		this.ventanaAutomatas.getTxtString().setText("");
+	}
 	
 	
 	

@@ -16,7 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import java.awt.Color;
 
-public class AutomatasWindow{
+public class GramaticasWindow{
 
 	
 	private JFrame frame;
@@ -32,11 +32,10 @@ public class AutomatasWindow{
 	private JLabel lblResultado;
 	private JLabel lblAceptarRechazar;
 	private JButton btnProcesar;
-	private JButton btnGuardar;
 	private JLabel lblLogo;
 	
 
-	public AutomatasWindow() 
+	public GramaticasWindow() 
 	{
 		super();
 		initialize();
@@ -86,12 +85,12 @@ public class AutomatasWindow{
 		panel.add(lblNombreArchivo);
 		
 		btnGraficar = new JButton("Graficar");
-		btnGraficar.setBounds(10, 70, 106, 23);
+		btnGraficar.setBounds(10, 70, 159, 23);
 		panel.add(btnGraficar);
 		btnGraficar.setVisible(false);
 		
 		btnConvertir = new JButton("Convertir");
-		btnConvertir.setBounds(133, 70, 106, 23);
+		btnConvertir.setBounds(179, 70, 159, 23);
 		panel.add(btnConvertir);
 		btnConvertir.setVisible(false);
 		
@@ -118,15 +117,9 @@ public class AutomatasWindow{
 		lblAceptarRechazar.setVisible(false);
 		
 		btnProcesar = new JButton("Procesar");
-		btnProcesar.setBounds(251, 117, 89, 23);
+		btnProcesar.setBounds(249, 118, 89, 23);
 		panel.add(btnProcesar);
 		btnProcesar.setVisible(false);
-		
-		
-		btnGuardar = new JButton("Guardar");
-		btnGuardar.setBounds(251, 70, 89, 23);
-		panel.add(btnGuardar);
-		btnGuardar.setVisible(false);
 	}
 	
 	public void show()
@@ -211,8 +204,6 @@ public class AutomatasWindow{
 		return btnProcesar;
 	}
 	
-	public JButton getBtnGuardar() {
-		return btnGuardar;
-	}
+	
 	
 }

@@ -90,11 +90,11 @@ public class Main {
 		AutomataToDotString dot = new AutomataToDotString();
 		dot.graficarAutomata(afd.getEstadosFinales(), afd.getTransiciones());
 		*/
-		/*
+		
 		MainWindow vista = new MainWindow();
 		ControladorPrincipal controlador = new ControladorPrincipal(vista);
 		controlador.inicializarVentanaPrincipal();
-		 */
+		 
 		
 		/*
 		
