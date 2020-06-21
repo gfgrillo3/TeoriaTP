@@ -48,12 +48,16 @@ public class FirstFollow {
 
 				// SI ES VARIABLE PONGO LOS FIRST DE LA VARIABLE
 				else {
+					
 					int i = 0;
+					boolean esAnulable = true;
 			
 					//SI ES LA PRIMER VARIABLE DEL LADO DERECHO DE LA PRODUCCION
 					//O SI ES UNA VARIABLE ANULABLE, ENTRO PARA VER LOS FIRST DEL SIMBOLO QUE SIGUE
 					//SIEMPREY CUANDO, TENGA ALGÚN SÍMBOLO SIGUIENTE
 					while(produccion.getCuerpo().size()>i && (i == 0 || isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i-1))))) {
+						
+						esAnulable = isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i)));
 						
 						//ME GUARDO LOS FIRSTS DE LA VARIABLE EN LA QUE ESTOY
 						char[] firstsVariable = getFirstVariable(produccion.getCuerpo().get(i), gramatica);
@@ -66,7 +70,11 @@ public class FirstFollow {
 	
 						//REVISO EL SIGUIENTE SIMBOLO
 						i++;
-					}	
+					}
+					
+					//si no eran todos anulables, no agrego el epsilon
+					if(!esAnulable)
+						conjunto = conjunto.replaceAll("[#]", "");
 				}
 		}
 
@@ -130,19 +138,51 @@ public class FirstFollow {
 			for(int i = 0; produccion.getCuerpo().size()>i; i++) {
 				//SI Yi ES UN TERMINAL NO HAGO NADA
 				if(!esTerminal(produccion.getCuerpo().get(i))) {
+					
+					//flag para ver si era anulable, lo uso para agregar los follow de variable
+					boolean esAnulable = false;
+					
 					//SI Yi ES UNA VARIABLE PRIMERO CHEQUEO SI ES IGUAL A variable
 					//LUEGO TOMO LOS FIRST DE LA DERECHA (SI EXISTE) 
 					if(produccion.getCuerpo().get(i).equals(variable) && i+1<produccion.getCuerpo().size()) {
+						
+						//agrego los first del simbolo que sigue
 						conjunto += new String(getFirstVariable(produccion.getCuerpo().get(i+1), gramatica));
+						
+						//indice para recorrer lo que sigue al simbolo en el que estoy
+						int j = i+1;
+						esAnulable = isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i+1)));
+						
+						//mientras tenga un simbolo siguiente y ademas sea anulable
+						//voy a fijarme los first de lo que le sigue al simbolo ese
+						while(j+1<produccion.getCuerpo().size() && esAnulable) {
+							
+							//si no existia agrego los char
+							conjunto += new String(getFirstVariable(produccion.getCuerpo().get(j+1), gramatica));
+							
+							
+							esAnulable =  isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(j+1)));
+							j++;
+						}
+						
+						
+						
 						//ELIMINO EL EPSILON
 						conjunto = conjunto.replaceAll("[#]", "");
 					}
+					
+					//SI ERA TODO ANULABLE, AGREGO LOS FOLLOWS DE VARIABLE
+					if(esAnulable)
+						conjunto += new String(getFollowVariable(produccion.getVariable().getStringVariable(),
+								gramatica, firstHashMap));
+					/*
 					//SI A LA DERECHA NO HAY MAS NADA O SI ES ANULABLE AGREGO LOS FOLLOWS DE variable
 					if(produccion.getCuerpo().get(i).equals(variable) && (i+1 == produccion.getCuerpo().size() || 
 							isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i+1))))) {
 						conjunto += new String(getFollowVariable(produccion.getVariable().getStringVariable(),
 								gramatica, firstHashMap));
 					}
+					*/
 				}
 			}
 			
