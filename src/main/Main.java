@@ -14,6 +14,7 @@ import model.domain.Variable;
 import model.graphViz.AutomataToDotString;
 import model.input.InputReader;
 import model.parserNRP.FirstFollow;
+import model.parserNRP.ParserSolver;
 import model.parserNRP.ParserTable;
 import view.MainWindow;
 
@@ -185,6 +186,11 @@ public class Main {
 			);
 			printMap2(entry.getValue());
 		});
+		
+		String s = "z";
+		
+		System.out.println("El string: " + s + " pertenece? = " + ParserSolver.resolver(s, tabla));
+		
 		/*
 		example.entrySet().forEach(entry->{
 		    System.out.println(entry.getKey() + " " + entry.getValue());  
