@@ -28,7 +28,7 @@ public class FirstFollow {
 		return firstHashMap;
 	}
 
-	private static char[] getFirstVariable(String variable, Gramatica gramatica) {
+	public static char[] getFirstVariable(String variable, Gramatica gramatica) {
 
 		String conjunto = "";
 

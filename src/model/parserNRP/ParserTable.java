@@ -8,7 +8,6 @@ import model.domain.Variable;
 
 public class ParserTable {
 
-	private Produccion[][] a;
 	private HashMap<String, HashMap<String, Produccion>> TablaDeParsing;
 	HashMap<String, char[]> firstGramatica;
 	HashMap<String, char[]> followGramatica;
@@ -52,17 +51,40 @@ public class ParserTable {
 			//ME QUEDO CON EL PRIMER SIMBOLO DE LA DERECHA DE LA PRODUCCION 
 			String primerSimbolo = produccion.getCuerpo().get(0);
 			
+			boolean esAnulable = false;
+			
 			//SI EL SIMBOLO ES VACIO, NO ME SIRVE ESA PRODUCCION
 			if(!primerSimbolo.equals("#")) {
 				
 				//ME QUEDO CON LOS FIRST DEL PRIMER SIMBOLO DE LA DERECHA
-				char[] firstsPrimerSimbolo = this.firstGramatica.get(primerSimbolo);
+				String firstsPrimerSimbolo = new String(this.firstGramatica.get(primerSimbolo));
 				
-				// ELIMINO EL EPSILON DE LOS FIRSTS
-				firstsPrimerSimbolo = new String(firstsPrimerSimbolo).replaceAll("[#]", "").toCharArray();
 				
+				//indice para recorrer lo que sigue al simbolo en el que estoy
+				int j = 0;
+				esAnulable = esAnulable(firstsPrimerSimbolo.toCharArray());
+				
+				
+
+				
+				
+				//mientras tenga un simbolo siguiente y ademas sea anulable
+				//voy a fijarme los first de lo que le sigue al simbolo ese
+				while(j+1<produccion.getCuerpo().size() && esAnulable) {
+					
+					//si no existia agrego los char
+					firstsPrimerSimbolo += new String(this.firstGramatica.get(produccion.getCuerpo().get(j+1)));
+					
+					esAnulable =  esAnulable(this.firstGramatica.get(produccion.getCuerpo().get(j+1)));
+					j++;
+				}
+							
+				//ELIMINO EL EPSILON
+				firstsPrimerSimbolo = firstsPrimerSimbolo.replaceAll("[#]", "");
+						
+					
 				//AGREGO LA PRODUCCION, A CADA TERMINAL DE FIRST Y A LA VARIABLE
-				for(char terminal : firstsPrimerSimbolo)
+				for(char terminal : firstsPrimerSimbolo.toCharArray())
 					this.TablaDeParsing.get(produccion.getVariable().getStringVariable()).put(terminal+"", produccion);
 			
 			}

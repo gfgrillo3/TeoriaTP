@@ -8,4 +8,14 @@ import model.domain.Variable;
 
 public class ParserSolver {
 	
+	
+	public static boolean resolver(String stringInput, ParserTable tablaDeParsing) {
+		
+		
+		
+		
+		return true;
+	}
+	
+	
 }
