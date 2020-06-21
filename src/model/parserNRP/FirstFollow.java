@@ -138,8 +138,8 @@ public class FirstFollow {
 						conjunto = conjunto.replaceAll("[#]", "");
 					}
 					//SI A LA DERECHA NO HAY MAS NADA O SI ES ANULABLE AGREGO LOS FOLLOWS DE variable
-					if(i+1 == produccion.getCuerpo().size() || 
-							isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i+1)))) {
+					if(produccion.getCuerpo().get(i).equals(variable) && (i+1 == produccion.getCuerpo().size() || 
+							isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i+1))))) {
 						conjunto += new String(getFollowVariable(produccion.getVariable().getStringVariable(),
 								gramatica, firstHashMap));
 					}

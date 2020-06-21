@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import controller.ControladorPrincipal;
 import model.AFNDtoAFD.AFNDtoAFD;
@@ -13,6 +14,7 @@ import model.domain.Variable;
 import model.graphViz.AutomataToDotString;
 import model.input.InputReader;
 import model.parserNRP.FirstFollow;
+import model.parserNRP.ParserTable;
 import view.MainWindow;
 
 public class Main {
@@ -98,7 +100,7 @@ public class Main {
 		X_{1} -> X_{2}z
 		X_{1} -> X_{5}w
 		X_{1} -> X_{5}X_{2}y
-		
+
 		X_{2} -> #
 		
 		X_{3} -> X_{4}
@@ -175,12 +177,52 @@ public class Main {
 		HashMap<String, char[]> followGramatica = FirstFollow.getFollow(gramatica);
 		followGramatica.forEach((variable,follows) -> System.out.println("Variable: " + variable + " --->  FOLLOWS : " + charArrayPrint(follows)));		
 		
+		
+		ParserTable tabla = new ParserTable(gramatica);
+		
+		tabla.getTablaParsing().entrySet().forEach(entry->{
+			System.out.println(" VAR : "+ entry.getKey()
+			);
+			printMap2(entry.getValue());
+		});
+		/*
+		example.entrySet().forEach(entry->{
+		    System.out.println(entry.getKey() + " " + entry.getValue());  
+		 });
+		 */
+		/*
+		tabla.getTablaParsing().forEach((variable,otroHash) -> otroHash.forEach((caracter,produccion) -> 
+				System.out.println("Variable: " + variable + " --->  CARACTER : " + caracter + " --->   PRODUCCION : " + produccion.getVariable().getStringVariable()
+						+ " ->"+ cuerpoToString(produccion.getCuerpo()))));
+		//(variable,follows) -> System.out.println("Variable: " + variable + " --->  FOLLOWS : " + charArrayPrint(follows))
+		
+		*/
 	}
 	
 	private static String charArrayPrint(char[] charArr) {
 		String ret = "";
 		for(char c : charArr)
 			ret += c+" ,";
+		return ret;
+	}
+	
+	public static void printMap2(HashMap<String, Produccion> hashmap) {
+		
+		hashmap.entrySet().forEach(entry2->{
+			if(entry2.getValue() != null )
+				System.out.println(" CHAR "+entry2.getKey()+" PROD "+ entry2.getValue().getVariable().getStringVariable() +" ->"+
+		cuerpoToString(entry2.getValue().getCuerpo()));
+		});
+		
+	}
+	
+	
+	public static String cuerpoToString(List<String> list) {
+		String ret = "";
+		
+		for(String cuerpo : list)
+			ret += cuerpo;
+		
 		return ret;
 	}
 
