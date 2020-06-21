@@ -13,6 +13,7 @@ import model.domain.Produccion;
 import model.domain.Variable;
 import model.graphViz.AutomataToDotString;
 import model.input.InputReader;
+import model.input.InputReaderParser;
 import model.parserNRP.FirstFollow;
 import model.parserNRP.ParserSolver;
 import model.parserNRP.ParserTable;
@@ -192,6 +193,20 @@ public class Main {
 		System.out.println("El string: " + s + " pertenece? = " + ParserSolver.resolver(s, tabla));
 		
 		/*
+		Gramatica gramaticaN = InputReaderParser.crearGramatica();
+
+		for(Variable v : gramaticaN.getVariables()) {
+			System.out.println(v.getStringVariable());
+		}
+		
+		for(char a : gramaticaN.getTerminales()) {
+			System.out.println(a);
+		}
+		
+		for(Produccion p: gramaticaN.getProducciones()) {
+				System.out.println(p.getCuerpo().size());
+		}
+		
 		example.entrySet().forEach(entry->{
 		    System.out.println(entry.getKey() + " " + entry.getValue());  
 		 });
