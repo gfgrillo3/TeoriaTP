@@ -5,15 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import controller.ControladorPrincipal;
-import model.AFNDtoAFD.AFNDtoAFD;
-import model.domain.AFD;
-import model.domain.AFND;
 import model.domain.Gramatica;
 import model.domain.Produccion;
 import model.domain.Variable;
-import model.graphViz.AutomataToDotString;
-import model.input.InputReader;
-import model.input.InputReaderParser;
 import model.parserNRP.FirstFollow;
 import model.parserNRP.ParserSolver;
 import model.parserNRP.ParserTable;

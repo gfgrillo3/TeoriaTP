@@ -6,7 +6,7 @@ import java.util.Stack;
 public class ParserSolver {
 	
 	
-	public static boolean resolver(String stringInput, ParserTable tablaDeParsing) {
+	public static String resolver(String stringInput, ParserTable tablaDeParsing) {
 		
 		Stack<String> pila = new Stack<String>();
 		//INICIALIZO LA PILA AGREGANDO $ AL COMINEZO
@@ -18,7 +18,7 @@ public class ParserSolver {
 		String charEntrada = entrada.charAt(punteroCharEntrada)+"";
 		//FLAG QUE INDICA SI SURGIO UN ERROR
 		boolean hayError = false;
-
+		
 		while(!hayError) {
 			//SI EL TOPE DE LA PILA ES IGUAL AL CHAR DE LA ENTRADA 
 			//HAGO UN POP DE LA PILA Y CORRO EL PUNTERO DEL CHAR HACIA EL SIGUIENTE
@@ -48,7 +48,7 @@ public class ParserSolver {
 						pila.pop();
 						for(int i = tablaDeParsing.getTablaParsing().get(auxiliarTopePila).get(charEntrada).getCuerpo().size()-1;
 								i>=0;i--){
-							if(tablaDeParsing.getTablaParsing().get(auxiliarTopePila).get(charEntrada).getCuerpo().get(i) != "#") {
+							if(!tablaDeParsing.getTablaParsing().get(auxiliarTopePila).get(charEntrada).getCuerpo().get(i).equals("#")) {
 								pila.push(tablaDeParsing.getTablaParsing().get(auxiliarTopePila).get(charEntrada).getCuerpo().get(i));
 							}
 						}
@@ -62,10 +62,10 @@ public class ParserSolver {
 			}
 			//SI EN LA PILA Y EN EL CHAR SE TIENE EL SIMBOLO $ EL STRING ES ACEPTADO
 			if(llegaronAlFinal(pila.peek(), charEntrada))
-				return true;
+				return "ACEPTADO";
 		}
 		//SI LUEGO DE CICLAR NO SE LLEGO AL SIMBOLO $ EN AMBOS LADOS EL STRING SE RECHAZA
-		return false;
+		return "RECHAZADO";
 	}
 
 	//DEVUELVE TRUE SI AMBOS STRINGS SON 4

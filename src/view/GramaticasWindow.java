@@ -25,8 +25,6 @@ public class GramaticasWindow{
 	private JLabel lblMadeBy;
 	private JLabel lblArchivoSeleccionado;
 	private JLabel lblNombreArchivo;
-	private JButton btnGraficar;
-	private JButton btnConvertir;
 	private JLabel lblString;
 	private JTextField txtString;
 	private JLabel lblResultado;
@@ -83,16 +81,6 @@ public class GramaticasWindow{
 		lblNombreArchivo = new JLabel(" ");
 		lblNombreArchivo.setBounds(179, 11, 159, 48);
 		panel.add(lblNombreArchivo);
-		
-		btnGraficar = new JButton("Graficar");
-		btnGraficar.setBounds(10, 70, 159, 23);
-		panel.add(btnGraficar);
-		btnGraficar.setVisible(false);
-		
-		btnConvertir = new JButton("Convertir");
-		btnConvertir.setBounds(179, 70, 159, 23);
-		panel.add(btnConvertir);
-		btnConvertir.setVisible(false);
 		
 		lblString = new JLabel("String:");
 		lblString.setBounds(10, 104, 127, 48);
@@ -158,17 +146,6 @@ public class GramaticasWindow{
 	public JLabel getLblNombreArchivo() {
 		return lblNombreArchivo;
 	}
-
-
-	public JButton getBtnGraficar() {
-		return btnGraficar;
-	}
-
-
-	public JButton getBtnConvertir() {
-		return btnConvertir;
-	}
-
 
 	public JLabel getLblMadeBy() {
 		return lblMadeBy;

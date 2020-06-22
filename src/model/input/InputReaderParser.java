@@ -12,7 +12,7 @@ import model.domain.Variable;
 
 public class InputReaderParser {
 
-	public static Gramatica crearGramatica() {
+	public static Gramatica crearGramatica(File archivo) {
 
 		//File archivo = null;
 		FileReader fr = null;
@@ -23,7 +23,7 @@ public class InputReaderParser {
 		try {
 			// Apertura del fichero y creacion de BufferedReader para poder
 			// hacer una lectura comoda (disponer del metodo readLine()).
-			File archivo = new File("C:\\Users\\Gustavo\\Desktop\\gramatica.txt");
+			//File archivo = new File("C:\\Users\\Gustavo\\Desktop\\gramatica.txt");
 			fr = new FileReader(archivo);
 			br = new BufferedReader(fr);
 

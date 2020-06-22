@@ -20,6 +20,7 @@ public class Gramatica {
 		this.producciones = producciones;
 		crearVariables(this.producciones);
 		crearTerminales(this.producciones);
+		System.out.println(this.toString());
 	}
 
 	public char[] getTerminales() {
@@ -110,6 +111,38 @@ public class Gramatica {
 		}
 		
 		return produccionesFollow;
+	}
+	
+	
+	@Override
+	public String toString() {
+		String ret = "";
+		
+		ret += "SIMBOLO INICIAL = "+this.simboloInicial.getStringVariable()+"\n";
+		
+		ret +="TERMINALES = [ ";
+		
+		for(char c : this.terminales)
+			ret += c+",";
+		
+		ret+= "]\n";
+		
+		ret+= "VARIABLES = ";
+		
+		for(Variable var : this.variables)
+			ret +=var.getStringVariable()+", ";
+		
+		ret +="\nPRODUCCIONES------------------------------";
+		
+		for(Produccion prod : this.producciones) {
+			ret +="\n";
+			ret += prod.getVariable().getStringVariable()+" -> ";
+			for(String cuerpo : prod.getCuerpo())
+				ret +=cuerpo;
+		}
+		ret +="\n";
+		
+		return ret;
 	}
 	
 }

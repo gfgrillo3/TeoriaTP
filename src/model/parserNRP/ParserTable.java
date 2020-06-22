@@ -1,6 +1,7 @@
 package model.parserNRP;
 
 import java.util.HashMap;
+import java.util.List;
 
 import model.domain.Gramatica;
 import model.domain.Produccion;
@@ -20,6 +21,7 @@ public class ParserTable {
 		this.TablaDeParsing = new HashMap<String, HashMap<String, Produccion>>();
 		this.construirHashMaps();
 		this.construirTabla();
+		this.toString();
 	}
 
 	// creo la tabla de parsing
@@ -50,7 +52,6 @@ public class ParserTable {
 			
 			//ME QUEDO CON EL PRIMER SIMBOLO DE LA DERECHA DE LA PRODUCCION 
 			String primerSimbolo = produccion.getCuerpo().get(0);
-			
 			boolean esAnulable = false;
 			
 			//SI EL SIMBOLO ES VACIO, NO ME SIRVE ESA PRODUCCION
@@ -88,14 +89,14 @@ public class ParserTable {
 					this.TablaDeParsing.get(produccion.getVariable().getStringVariable()).put(terminal+"", produccion);
 			
 			}
-			
 			//SI EL LADO IZQUIERDO ES ANULABLE, AGREGO LOS FOLLOW
-			if(esAnulable(this.firstGramatica.get(produccion.getVariable().getStringVariable()))) {
-				
+			if(primerSimbolo.equals("#") || esAnulable) {
+		
+				//AGREGO LOS FOLLOW DE VARIABLE IZQUIERDA A FOLLOW DE SIMBOLO
 				char[] followsVariableProduccion = this.followGramatica.get(produccion.getVariable().getStringVariable());
-				
 				for(char terminal : followsVariableProduccion) 
-					this.TablaDeParsing.get(produccion.getVariable().getStringVariable()).put(terminal+"", produccion);				
+					this.TablaDeParsing.get(produccion.getVariable().getStringVariable()).put(terminal+"", produccion);		
+				
 				
 			}
 		}
@@ -114,5 +115,45 @@ public class ParserTable {
 
 	public HashMap<String, HashMap<String, Produccion>> getTablaParsing() {
 		return this.TablaDeParsing;
+	}
+	
+	@Override 
+	public String toString(){
+		this.TablaDeParsing.entrySet().forEach(entry->{
+			System.out.println(" VAR : "+ entry.getKey()
+			);
+			printMap2(entry.getValue());
+		});
+		
+		return "";
+	}
+	
+	
+	public void printMap2(HashMap<String, Produccion> hashmap) {
+		
+		hashmap.entrySet().forEach(entry2->{
+			if(entry2.getValue() != null )
+				System.out.println(" CHAR "+entry2.getKey()+" PROD "+ entry2.getValue().getVariable().getStringVariable() +" ->"+
+		cuerpoToString(entry2.getValue().getCuerpo()));
+		});
+		
+	}
+	
+public void printMapFollow(HashMap<String, char[]> hashmap) {
+		
+		hashmap.entrySet().forEach(entry2->{
+			if(entry2.getValue() != null )
+				System.out.println(" VAR "+entry2.getKey()+" FOLLOW "+ new String(entry2.getValue()));
+		});
+		
+	}
+	
+	public String cuerpoToString(List<String> list) {
+		String ret = "";
+		
+		for(String cuerpo : list)
+			ret += cuerpo;
+		
+		return ret;
 	}
 }
