@@ -89,7 +89,7 @@ public class ParserTable {
 					this.TablaDeParsing.get(produccion.getVariable().getStringVariable()).put(terminal+"", produccion);
 			
 			}
-			//SI EL LADO IZQUIERDO ES ANULABLE, AGREGO LOS FOLLOW
+			//SI EL STRING ES ANULABLE, AGREGO LOS FOLLOW
 			if(primerSimbolo.equals("#") || esAnulable) {
 		
 				//AGREGO LOS FOLLOW DE VARIABLE IZQUIERDA A FOLLOW DE SIMBOLO

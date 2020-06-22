@@ -107,6 +107,7 @@ public class Main {
 
 		
 		*/
+		/*
 		Variable v1 = new Variable("X_{1}");
 		Variable v2 = new Variable("X_{2}");
 		Variable v3 = new Variable("X_{3}");

@@ -56,7 +56,7 @@ public class FirstFollow {
 				// O SI ES UNA VARIABLE ANULABLE, ENTRO PARA VER LOS FIRST DEL SIMBOLO QUE SIGUE
 				// SIEMPREY CUANDO, TENGA ALGÚN SÍMBOLO SIGUIENTE
 				while (produccion.getCuerpo().size() > i && (i == 0
-						|| isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i - 1))))) {
+						|| esAnulable)) {
 
 					esAnulable = isAnulable(gramatica.getProduccionesVariable(produccion.getCuerpo().get(i)));
 
@@ -110,23 +110,18 @@ public class FirstFollow {
 
 	public static HashMap<String, char[]> getFollow(Gramatica gramatica) {
 
-		// OBTENGO LOS FIRST DE LA GRAMATICA
-		HashMap<String, char[]> firstHashMap = new HashMap<String, char[]>();
-		firstHashMap = getFirst(gramatica);
-
 		HashMap<String, char[]> followHashMap = new HashMap<String, char[]>();
 
 		// RECORRO CADA VARIABLE Y BUSCO SUS FOLLOWS PARA AGREGAR AL HASHMAP
 		for (Variable variable : gramatica.getVariables()) {
 			followHashMap.put(variable.getStringVariable(),
-					getFollowVariable(variable.getStringVariable(), gramatica, firstHashMap));
+					getFollowVariable(variable.getStringVariable(), gramatica));
 		}
 
 		return followHashMap;
 	}
 
-	private static char[] getFollowVariable(String variable, Gramatica gramatica,
-			HashMap<String, char[]> firstHashMap) {
+	private static char[] getFollowVariable(String variable, Gramatica gramatica) {
 
 		String conjunto = "";
 
@@ -181,7 +176,7 @@ public class FirstFollow {
 					if ((esAnulable || i + 1 == produccion.getCuerpo().size())
 							&& !produccion.getVariable().getStringVariable().equals(produccion.getCuerpo().get(i)))
 						conjunto = addTerminales(conjunto, getFollowVariable(produccion.getVariable().getStringVariable(),
-								gramatica, firstHashMap));
+								gramatica));
 
 				}
 

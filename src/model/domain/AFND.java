@@ -7,7 +7,6 @@ import java.util.List;
 
 public class AFND {
 
-	// PROBABLEMENTE LIST STRING?
 	char[] alfabetoInput;
 	List<Estado> estadoInicial;
 	List<Estado> estados;
